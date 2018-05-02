@@ -1,0 +1,464 @@
+{% extends 'base.html' %}
+
+<script>
+{% block jquery %}
+// var endpoint = '/api/data_mapping/'
+var endpoint = '/api/data_week/'
+var defaultTemp = []
+var labelsTemp = []
+var defaultLight = []
+var labelsLight = []
+var defaultSound = []
+var labelsSound = []
+var defaultHumid = []
+var labelsHumid = [];
+$.ajax({
+    method: "GET",
+    url: endpoint,
+    success: function(data){
+        // var parsedData = JSON.parse(data.temperature)
+        // console.log(data)
+        labelsTemp = data.temperature.labels
+        labelsHumid = data.humidity.labels
+        labelsLight = data.light_intensity.labels
+        labelsSound = data.sound_intensity.labels
+        // labels = data.temperature.2018-04-29.labels
+        // console.log(labels)
+        defaultTemp = data.temperature.default
+        defaultHumid = data.humidity.default
+        defaultLight = data.light_intensity.default
+        defaultSound = data.sound_intensity.default
+        // defaultData = data.temperature.2018-04-29.default
+        // console.log(defaultData)
+        setChart()
+    },
+    error: function(error_data){
+        console.log("error")
+        console.log(error_data)
+    }
+})
+
+function setChart(){
+    var ctx = document.getElementById("myChart");
+    var ctx2 = document.getElementById("myChart2");
+    var ctx3 = document.getElementById("myChart3");
+    var ctx4 = document.getElementById("myChart4");
+    
+    var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: labelsTemp,
+        datasets: [{
+            label: 'Temperature in degree Celcius',
+            data: defaultTemp,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+    var myChart2 = new Chart(ctx2, {
+    type: 'bar',
+    data: {
+        labels: labelsHumid,
+        datasets: [{
+            label: 'Humidity in percentage %',
+            data: defaultHumid,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
+    var myChart3 = new Chart(ctx3, {
+    type: 'bar',
+    data: {
+        labels: labelsLight,
+        datasets: [{
+            label: 'Light Intensity in cd/m2',
+            data: defaultLight,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+             ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+    var myChart4 = new Chart(ctx4, {
+    type: 'bar',
+    data: {
+        labels: labelsSound,
+        datasets: [{
+            label: 'Sound Level in dB',
+            data: defaultSound,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)',
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+             ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
+}
+
+
+
+
+
+{% endblock %}
+</script>
+
+{% block content %}
+
+<table style="border:0;text-align:left">
+<tr>
+    <td>
+        <table 
+            style="
+                border:0;
+                border-spacing:0;
+                width:640px; 
+                height:480px;
+                background-repeat:no-repeat;
+                background-size: 100% 100%;
+                z-index:2;
+                text-align:center;
+                vertical-align:middle;
+                margin-left:auto;
+                margin-right:auto;">
+
+            <tr style="height:13px;">
+                <td colspan="5">
+                
+                </td>
+            </tr>
+            
+            <tr><td style="width:43px;"></td>
+                <td
+                    <div style="vertical-align:middle;
+                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                    background-color:#c88292;
+                    border-bottom:thin dotted #FFF;
+                    border-right:thin dotted #FFF;
+                    color:#FFF;">43.1 &deg;C
+                    </div>
+                </td>
+                <td 
+                    style="vertical-align:middle;
+                    /*filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;*/
+                    background-color:#e8545d;
+                    border-bottom:thin dotted #FFF;
+                    border-right:thin dotted #FFF;
+                    color:#FFF;">52.6 &deg;C
+                </td>
+                <td
+                    style="vertical-align:middle;
+                    /*filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;*/
+                    background-color:#d07685;
+                    border-bottom:thin dotted #FFF;
+                    color:#FFF;">45.5 &deg;C
+                </td>
+                <td style="width:42px;"></td>
+            </tr>
+            
+            <tr><td style="width:43px;"></td>
+                <td
+                    style="vertical-align:middle;
+                    /*filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;*/
+                    background-color:#b996aa;
+                    border-bottom:thin dotted #FFF;
+                    border-right:thin dotted #FFF;
+                    color:#FFF;">38.8 &deg;C
+                </td>
+                <td
+                    style="vertical-align:middle;
+                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                    background-color:#d17584;
+                    border-bottom:thin dotted #FFF;
+                    border-right:thin dotted #FFF;
+                    color:#FFF;">45.7 &deg;C
+                </td>
+                <td
+                    style="vertical-align:middle;
+                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                    background-color:#dd636f;
+                    border-bottom:thin dotted #FFF;
+                    color:#FFF;">49.4 &deg;C
+                </td>
+                <td style="width:42px;"></td>
+            </tr>
+            
+            <tr><td style="width:43px;"></td>
+                <td 
+                    style="vertical-align:middle;
+                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                    background-color:#91ceec;
+                    border-right:thin dotted #FFF;
+                    color:#FFF;">27.1 &deg;C
+                </td>
+                <td 
+                    style="vertical-align:middle;
+                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                    background-color:#a0b9d3;
+                    border-right:thin dotted #FFF;
+                    color:#FFF;">31.6 &deg;C
+                </td>
+                <td 
+                    style="vertical-align:middle;
+                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                    background-color:#b49db2;
+                    color:#FFF;">37.5 &deg;C
+                </td>
+            <td style="width:42px;"></td>
+            </tr>
+        <tr style="height:22px;">
+            <td colspan="5"></td>
+        </tr>
+        </table>
+    </td>
+</tr>
+</table>
+
+
+{% endblock content %}
