@@ -259,6 +259,97 @@ class DataWeekEndpoint(APIView):
 
         return Response(return_all_dict)
 
+class DataMapping(APIView):
+    ''' INI BUAT NGELOMPOKIN 15 MENIT TERAKHIR BUAT HEAT MAP '''
+    def get(self, request):
+        datums = Datum.objects.filter(date_n__gte=datetime.now())
+        datumin = datums.objects.filter(time_n__gte=datetime.now()+timedelta(hours=7)-timedelta(minutes=15))
+        # Inisialisasi variable yang mau di-return
+        return_all_dict = {}
+
+        # Kelompokin berdasar sensor_id
+        sensor_id_bucket = set()
+        for dt in datumin:
+            sensor_id_bucket.add(str(dt.sensor_id))
+        
+        # Temperature
+        # Inisialisasi pengelompokan data buat tiap Sensor ID
+        list_data_per_id = {}
+        for hb in sensor_id_bucket:
+            list_data_per_id[hb] = []
+        # Ngelompokin berdasar Sensor ID
+        for dt in datumin:
+            list_data_per_id[str(dt.sensor_id)].append(dt.temperature)
+
+        return_dictionary = {} 
+        return_dictionary["default"] = []
+        return_dictionary["labels"] = []
+        for k, value in list_data_per_id.items():
+            return_dictionary["default"].append(mean(value))
+            return_dictionary["labels"].append(k)
+
+        return_all_dict["temperature"] = return_dictionary
+
+        # Humidity
+        # Inisialisasi pengelompokan data buat tiap Sensor ID
+        list_data_per_id = {}
+        for hb in sensor_id_bucket:
+            list_data_per_id[hb] = []
+        # Ngelompokin berdasar Sensor ID
+        
+        for dt in datumin:
+            list_data_per_id[str(dt.sensor_id)].append(dt.humidity)
+
+        return_dictionary = {} 
+        return_dictionary["default"] = []
+        return_dictionary["labels"] = []
+        for k, value in list_data_per_id.items():
+            return_dictionary["default"].append(mean(value))
+            return_dictionary["labels"].append(k)
+
+        return_all_dict["humidity"] = return_dictionary
+
+        # Light Intensity
+        # Inisialisasi pengelompokan data buat tiap Sensor ID
+        list_data_per_id = {}
+        for hb in sensor_id_bucket:
+            list_data_per_id[hb] = []
+        # Ngelompokin berdasar Sensor ID
+        
+        for dt in datumin:
+            list_data_per_id[str(dt.sensor_id)].append(dt.light_intensity)
+
+        return_dictionary = {} 
+        return_dictionary["default"] = []
+        return_dictionary["labels"] = []
+        for k, value in list_data_per_id.items():
+            return_dictionary["default"].append(mean(value))
+            return_dictionary["labels"].append(k)
+
+        return_all_dict["light_intensity"] = return_dictionary
+
+        # Sound Level
+        # Inisialisasi pengelompokan data buat tiap Sensor ID
+        list_data_per_id = {}
+        for hb in sensor_id_bucket:
+            list_data_per_id[hb] = []
+        # Ngelompokin berdasar Sensor ID
+        
+        for dt in datumin:
+            list_data_per_id[str(dt.sensor_id)].append(dt.sound_intensity)
+
+        return_dictionary = {} 
+        return_dictionary["default"] = []
+        return_dictionary["labels"] = []
+        for k, value in list_data_per_id.items():
+            return_dictionary["default"].append(mean(value))
+            return_dictionary["labels"].append(k)
+
+        return_all_dict["sound_intensity"] = return_dictionary
+
+        return Response(return_all_dict)
+
+
 class DataEndpoint(APIView):
     ''' INI BUAT NGELOMPOKIN 7 HARI TERAKHIR BUAT GRAFIK '''
     def get(self, request):
@@ -369,96 +460,5 @@ class DataEndpoint(APIView):
                 return_dictionary["default"].append(mean(value))
                 return_dictionary["labels"].append(k)
             return_all_dict["sound_intensity"][str(key)] = return_dictionary
-
-        return Response(return_all_dict)
-
-
-class DataMapping(APIView):
-    ''' INI BUAT NGELOMPOKIN 15 MENIT TERAKHIR BUAT HEAT MAP '''
-    def get(self, request):
-        datums = Datum.objects.filter(time_n__gte=datetime.now()+timedelta(hours=7)-timedelta(minutes=15))
-        
-        # Inisialisasi variable yang mau di-return
-        return_all_dict = {}
-
-        # Kelompokin berdasar sensor_id
-        sensor_id_bucket = set()
-        for dt in datums:
-            sensor_id_bucket.add(str(dt.sensor_id))
-        
-        # Temperature
-        # Inisialisasi pengelompokan data buat tiap Sensor ID
-        list_data_per_id = {}
-        for hb in sensor_id_bucket:
-            list_data_per_id[hb] = []
-        # Ngelompokin berdasar Sensor ID
-        for dt in datums:
-            list_data_per_id[str(dt.sensor_id)].append(dt.temperature)
-
-        return_dictionary = {} 
-        return_dictionary["default"] = []
-        return_dictionary["labels"] = []
-        for k, value in list_data_per_id.items():
-            return_dictionary["default"].append(mean(value))
-            return_dictionary["labels"].append(k)
-
-        return_all_dict["temperature"] = return_dictionary
-
-        # Humidity
-        # Inisialisasi pengelompokan data buat tiap Sensor ID
-        list_data_per_id = {}
-        for hb in sensor_id_bucket:
-            list_data_per_id[hb] = []
-        # Ngelompokin berdasar Sensor ID
-        # Temperature
-        for dt in datums:
-            list_data_per_id[str(dt.sensor_id)].append(dt.humidity)
-
-        return_dictionary = {} 
-        return_dictionary["default"] = []
-        return_dictionary["labels"] = []
-        for k, value in list_data_per_id.items():
-            return_dictionary["default"].append(mean(value))
-            return_dictionary["labels"].append(k)
-
-        return_all_dict["humidity"] = return_dictionary
-
-        # Light Intensity
-        # Inisialisasi pengelompokan data buat tiap Sensor ID
-        list_data_per_id = {}
-        for hb in sensor_id_bucket:
-            list_data_per_id[hb] = []
-        # Ngelompokin berdasar Sensor ID
-        # Temperature
-        for dt in datums:
-            list_data_per_id[str(dt.sensor_id)].append(dt.light_intensity)
-
-        return_dictionary = {} 
-        return_dictionary["default"] = []
-        return_dictionary["labels"] = []
-        for k, value in list_data_per_id.items():
-            return_dictionary["default"].append(mean(value))
-            return_dictionary["labels"].append(k)
-
-        return_all_dict["light_intensity"] = return_dictionary
-
-        # Sound Level
-        # Inisialisasi pengelompokan data buat tiap Sensor ID
-        list_data_per_id = {}
-        for hb in sensor_id_bucket:
-            list_data_per_id[hb] = []
-        # Ngelompokin berdasar Sensor ID
-        # Temperature
-        for dt in datums:
-            list_data_per_id[str(dt.sensor_id)].append(dt.sound_intensity)
-
-        return_dictionary = {} 
-        return_dictionary["default"] = []
-        return_dictionary["labels"] = []
-        for k, value in list_data_per_id.items():
-            return_dictionary["default"].append(mean(value))
-            return_dictionary["labels"].append(k)
-
-        return_all_dict["sound_intensity"] = return_dictionary
 
         return Response(return_all_dict)

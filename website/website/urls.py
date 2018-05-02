@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^api/data_endpoint/', views.DataEndpoint.as_view()),
     url(r'^api/data_day/', views.DataDayEndpoint.as_view()),
     url(r'^api/data_week/', views.DataWeekEndpoint.as_view()),
+    url(r'^api/data_mapping/', views.DataMapping.as_view()),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
