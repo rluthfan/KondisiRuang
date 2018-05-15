@@ -6,30 +6,81 @@ window.setInterval(function(){
     loadTemperature();
 }, 5000)
 
-function getColor(value){
+function getColorTemp(value){
     lowValue1 = 15
     lowValue2 = 22
     lowValue3 = 27
     hiValue = 40
     lowColor1 = parseInt("91CEEC",16);
-    // hiColor1 = parseInt("92ACCC",16);
     lowColor2 = parseInt("B49DB2",16);
-    // hiColor2 = parseInt("BC4F4F",16);
-    // lowColor3 = parseInt("B23333",16);
     hiColor = parseInt("E8545D",16);
     if((value>lowValue1)&&(value<=lowValue2)){
-        // factor = (value-lowValue1)/(lowValue2-lowValue1)
-        // result = lowColor1+Math.round(factor*(hiColor1-lowColor1))
         result = lowColor1
     }
     else if((value>lowValue2)&&(value<=lowValue3)){
-        // factor = (value-lowValue2)/(lowValue3-lowValue2)
-        // result = lowColor2+Math.round(factor*(hiColor2-lowColor2))
         result = lowColor2
     }
     else if((value>lowValue3)&&(value<=hiValue)){
-        // factor = (value-lowValue3)/(hiValue-lowValue3)
-        // result = lowColor3+Math.round(factor*(hiColor3-lowColor3))
+        result = hiColor
+    }
+    return result.toString(16).toUpperCase();
+}
+
+function getColorHumi(value){
+    lowValue1 = 20
+    lowValue2 = 40
+    lowValue3 = 60
+    hiValue = 40
+    lowColor1 = parseInt("91CEEC",16);
+    lowColor2 = parseInt("B49DB2",16);
+    hiColor = parseInt("E8545D",16);
+    if((value>lowValue1)&&(value<=lowValue2)){
+        result = lowColor1
+    }
+    else if((value>lowValue2)&&(value<=lowValue3)){
+        result = lowColor2
+    }
+    else if((value>lowValue3)&&(value<=hiValue)){
+        result = hiColor
+    }
+    return result.toString(16).toUpperCase();
+}
+
+function getColorLight(value){
+    lowValue1 = 10
+    lowValue2 = 300
+    lowValue3 = 600
+    hiValue = 3000
+    lowColor1 = parseInt("91CEEC",16);
+    lowColor2 = parseInt("B49DB2",16);
+    hiColor = parseInt("E8545D",16);
+    if((value>lowValue1)&&(value<=lowValue2)){
+        result = lowColor1
+    }
+    else if((value>lowValue2)&&(value<=lowValue3)){
+        result = lowColor2
+    }
+    else if((value>lowValue3)&&(value<=hiValue)){
+        result = hiColor
+    }
+    return result.toString(16).toUpperCase();
+}
+
+function getColorSound(value){
+    lowValue1 = 10
+    lowValue2 = 20
+    lowValue3 = 40
+    hiValue = 90
+    lowColor1 = parseInt("91CEEC",16);
+    lowColor2 = parseInt("B49DB2",16);
+    hiColor = parseInt("E8545D",16);
+    if((value>lowValue1)&&(value<=lowValue2)){
+        result = lowColor1
+    }
+    else if((value>lowValue2)&&(value<=lowValue3)){
+        result = lowColor2
+    }
+    else if((value>lowValue3)&&(value<=hiValue)){
         result = hiColor
     }
     return result.toString(16).toUpperCase();
@@ -54,44 +105,115 @@ function loadTemperature(){
         method: "GET",
         url: endpoint,
         success: function(data){
-            // var parsedData = JSON.parse(data.temperature)
-            // console.log(data)
             labelsTemp = data.temperature.labels
             labelsHumid = data.humidity.labels
             labelsLight = data.light_intensity.labels
             labelsSound = data.sound_intensity.labels
-            // labels = data.temperature.2018-04-29.labels
-            // console.log(labels)
             defaultTemp = data.temperature.default
             defaultHumid = data.humidity.default
             defaultLight = data.light_intensity.default
             defaultSound = data.sound_intensity.default
-            // defaultData = data.temperature.2018-04-29.default
-            console.log(defaultTemp)
+
             datatengahan1=((defaultTemp[0]+defaultTemp[1])/2)
             datatengahan2=((defaultTemp[1]+defaultTemp[2])/2)
             datatengahan3=((defaultTemp[2]+defaultTemp[3])/2)
             datatengahan4=((defaultTemp[0]+defaultTemp[3])/2)
             aveall=((datatengahan1+datatengahan2+datatengahan3+datatengahan4)/4)
+
             $('#temp1').html(Math.round(defaultTemp[0]*10)/10+"&deg;C")
-            $('#temp1').css('background-color',"#"+getColor(Math.round(defaultTemp[0]*10)/10))
+            $('#temp1').css('background-color',"#"+getColorTemp(Math.round(defaultTemp[0]*10)/10))
             $('#temp2').html(Math.round(datatengahan1*10)/10+"&deg;C")
-            $('#temp2').css('background-color',"#"+getColor(Math.round(datatengahan1*10)/10))
+            $('#temp2').css('background-color',"#"+getColorTemp(Math.round(datatengahan1*10)/10))
             $('#temp3').html(Math.round(defaultTemp[1]*10)/10+"&deg;C")
-            $('#temp3').css('background-color',"#"+getColor(Math.round(defaultTemp[1]*10)/10))
+            $('#temp3').css('background-color',"#"+getColorTemp(Math.round(defaultTemp[1]*10)/10))
             $('#temp4').html(Math.round(datatengahan4*10)/10+"&deg;C")
-            $('#temp4').css('background-color',"#"+getColor(Math.round(datatengahan4*10)/10))
+            $('#temp4').css('background-color',"#"+getColorTemp(Math.round(datatengahan4*10)/10))
             $('#temp5').html(Math.round(aveall*10)/10+"&deg;C")
-            $('#temp5').css('background-color',"#"+getColor(Math.round(aveall*10)/10))
+            $('#temp5').css('background-color',"#"+getColorTemp(Math.round(aveall*10)/10))
             $('#temp6').html(Math.round(datatengahan2*10)/10+"&deg;C")
-            $('#temp6').css('background-color',"#"+getColor(Math.round(datatengahan2*10)/10))
+            $('#temp6').css('background-color',"#"+getColorTemp(Math.round(datatengahan2*10)/10))
             $('#temp7').html(Math.round(defaultTemp[3]*10)/10+"&deg;C")
-            $('#temp7').css('background-color',"#"+getColor(Math.round(defaultTemp[3]*10)/10))
+            $('#temp7').css('background-color',"#"+getColorTemp(Math.round(defaultTemp[3]*10)/10))
             $('#temp8').html(Math.round(datatengahan3*10)/10+"&deg;C")
-            $('#temp8').css('background-color',"#"+getColor(Math.round(datatengahan3*10)/10))
+            $('#temp8').css('background-color',"#"+getColorTemp(Math.round(datatengahan3*10)/10))
             $('#temp9').html(Math.round(defaultTemp[2]*10)/10+"&deg;C")
-            $('#temp9').css('background-color',"#"+getColor(Math.round(defaultTemp[2]*10)/10))
-            // setChart()
+            $('#temp9').css('background-color',"#"+getColorTemp(Math.round(defaultTemp[2]*10)/10))
+
+            datatengahan1=((defaultHumid[0]+defaultHumid[1])/2)
+            datatengahan2=((defaultHumid[1]+defaultHumid[2])/2)
+            datatengahan3=((defaultHumid[2]+defaultHumid[3])/2)
+            datatengahan4=((defaultHumid[0]+defaultHumid[3])/2)
+            aveall=((datatengahan1+datatengahan2+datatengahan3+datatengahan4)/4)
+
+            $('#humi1').html(Math.round(defaultHumid[0]*10)/10+"%")
+            $('#humi1').css('background-color',"#"+getColorHumi(Math.round(defaultHumid[0]*10)/10))
+            $('#humi2').html(Math.round(datatengahan1*10)/10+"%")
+            $('#humi2').css('background-color',"#"+getColorHumi(Math.round(datatengahan1*10)/10))
+            $('#humi3').html(Math.round(defaultHumid[1]*10)/10+"%")
+            $('#humi3').css('background-color',"#"+getColorHumi(Math.round(defaultHumid[1]*10)/10))
+            $('#humi4').html(Math.round(datatengahan4*10)/10+"%")
+            $('#humi4').css('background-color',"#"+getColorHumi(Math.round(datatengahan4*10)/10))
+            $('#humi5').html(Math.round(aveall*10)/10+"%")
+            $('#humi5').css('background-color',"#"+getColorHumi(Math.round(aveall*10)/10))
+            $('#humi6').html(Math.round(datatengahan2*10)/10+"%")
+            $('#humi6').css('background-color',"#"+getColorHumi(Math.round(datatengahan2*10)/10))
+            $('#humi7').html(Math.round(defaultHumid[3]*10)/10+"%")
+            $('#humi7').css('background-color',"#"+getColorHumi(Math.round(defaultHumid[3]*10)/10))
+            $('#humi8').html(Math.round(datatengahan3*10)/10+"%")
+            $('#humi8').css('background-color',"#"+getColorHumi(Math.round(datatengahan3*10)/10))
+            $('#humi9').html(Math.round(defaultHumid[2]*10)/10+"%")
+            $('#humi9').css('background-color',"#"+getColorHumi(Math.round(defaultHumid[2]*10)/10))
+
+            datatengahan1=((defaultLight[0]+defaultLight[1])/2)
+            datatengahan2=((defaultLight[1]+defaultLight[2])/2)
+            datatengahan3=((defaultLight[2]+defaultLight[3])/2)
+            datatengahan4=((defaultLight[0]+defaultLight[3])/2)
+            aveall=((datatengahan1+datatengahan2+datatengahan3+datatengahan4)/4)
+
+            $('#light1').html(Math.round(defaultLight[0]*10)/10+" lux")
+            $('#light1').css('background-color',"#"+getColorLight(Math.round(defaultLight[0]*10)/10))
+            $('#light2').html(Math.round(datatengahan1*10)/10+" lux")
+            $('#light2').css('background-color',"#"+getColorLight(Math.round(datatengahan1*10)/10))
+            $('#light3').html(Math.round(defaultLight[1]*10)/10+" lux")
+            $('#light3').css('background-color',"#"+getColorLight(Math.round(defaultLight[1]*10)/10))
+            $('#light4').html(Math.round(datatengahan4*10)/10+" lux")
+            $('#light4').css('background-color',"#"+getColorLight(Math.round(datatengahan4*10)/10))
+            $('#light5').html(Math.round(aveall*10)/10+" lux")
+            $('#light5').css('background-color',"#"+getColorLight(Math.round(aveall*10)/10))
+            $('#light6').html(Math.round(datatengahan2*10)/10+" lux")
+            $('#light6').css('background-color',"#"+getColorLight(Math.round(datatengahan2*10)/10))
+            $('#light7').html(Math.round(defaultLight[3]*10)/10+" lux")
+            $('#light7').css('background-color',"#"+getColorLight(Math.round(defaultLight[3]*10)/10))
+            $('#light8').html(Math.round(datatengahan3*10)/10+" lux")
+            $('#light8').css('background-color',"#"+getColorLight(Math.round(datatengahan3*10)/10))
+            $('#light9').html(Math.round(defaultLight[2]*10)/10+" lux")
+            $('#light9').css('background-color',"#"+getColorLight(Math.round(defaultLight[2]*10)/10))
+
+            datatengahan1=((defaultSound[0]+defaultSound[1])/2)
+            datatengahan2=((defaultSound[1]+defaultSound[2])/2)
+            datatengahan3=((defaultSound[2]+defaultSound[3])/2)
+            datatengahan4=((defaultSound[0]+defaultSound[3])/2)
+            aveall=((datatengahan1+datatengahan2+datatengahan3+datatengahan4)/4)
+
+            $('#sound1').html(Math.round(defaultSound[0]*10)/10+"dB")
+            $('#sound1').css('background-color',"#"+getColorSound(Math.round(defaultSound[0]*10)/10))
+            $('#sound2').html(Math.round(datatengahan1*10)/10+"dB")
+            $('#sound2').css('background-color',"#"+getColorSound(Math.round(datatengahan1*10)/10))
+            $('#sound3').html(Math.round(defaultSound[1]*10)/10+"dB")
+            $('#sound3').css('background-color',"#"+getColorSound(Math.round(defaultSound[1]*10)/10))
+            $('#sound4').html(Math.round(datatengahan4*10)/10+"dB")
+            $('#sound4').css('background-color',"#"+getColorSound(Math.round(datatengahan4*10)/10))
+            $('#sound5').html(Math.round(aveall*10)/10+"dB")
+            $('#sound5').css('background-color',"#"+getColorSound(Math.round(aveall*10)/10))
+            $('#sound6').html(Math.round(datatengahan2*10)/10+"dB")
+            $('#sound6').css('background-color',"#"+getColorSound(Math.round(datatengahan2*10)/10))
+            $('#sound7').html(Math.round(defaultSound[3]*10)/10+"dB")
+            $('#sound7').css('background-color',"#"+getColorSound(Math.round(defaultSound[3]*10)/10))
+            $('#sound8').html(Math.round(datatengahan3*10)/10+"dB")
+            $('#sound8').css('background-color',"#"+getColorSound(Math.round(datatengahan3*10)/10))
+            $('#sound9').html(Math.round(defaultSound[2]*10)/10+"dB")
+            $('#sound9').css('background-color',"#"+getColorSound(Math.round(defaultSound[2]*10)/10))
+            
         },
         error: function(error_data){
             console.log("error")
@@ -106,122 +228,488 @@ function loadTemperature(){
 
 {% block content %}
 
-<table style="border:0;text-align:left">
-<tr>
-    <td>
-        <table 
-            style="
-                border:0;
-                border-spacing:0;
-                width:640px; 
-                height:480px;
-                background-repeat:no-repeat;
-                background-size: 100% 100%;
-                z-index:2;
-                text-align:center;
-                vertical-align:middle;
-                margin-left:auto;
-                margin-right:auto;">
+<div class='row'>
+    <div class='col-sm-12' url-endpoint='/api/data_mapping/'>
+        <h1>Today's Classroom Environment</h1>
+        <div class='col-sm-6'>
+            <table style="border:0;text-align:left">
+            <tr>
+                <td>
+                    <table 
+                        style="
+                            border:0;
+                            border-spacing:0;
+                            width:640px; 
+                            height:480px;
+                            background-repeat:no-repeat;
+                            background-size: 100% 100%;
+                            z-index:2;
+                            text-align:center;
+                            vertical-align:middle;
+                            margin-left:auto;
+                            margin-right:auto;">
 
-            <tr style="height:13px;">
-                <td colspan="5">
-                
+                        <tr style="height:13px;">
+                            <td colspan="5">
+                            
+                            </td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="temp1" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                                
+                            </td>
+                            <td
+                                id="temp2" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                                   
+                            </td>
+                            <td
+                                id="temp3" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td style="width:42px;"></td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="temp4" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="temp5" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="temp6" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td style="width:42px;"></td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="temp7" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="temp8" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="temp9" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                color:#FFF;">
+                            
+                            </td>
+                        <td style="width:42px;"></td>
+                        </tr>
+                    <tr style="height:22px;">
+                        <td colspan="5"></td>
+                    </tr>
+                    </table>
                 </td>
             </tr>
-            
-            <tr><td style="width:43px;"></td>
-                <td
-                    id="temp1" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    border-bottom:thin dotted #FFF;
-                    border-right:thin dotted #FFF;
-                    color:#FFF;">
-                    
+            </table>
+        </div>
+        <div class='col-sm-6'>
+            <table style="border:0;text-align:left">
+            <tr>
+                <td>
+                    <table 
+                        style="
+                            border:0;
+                            border-spacing:0;
+                            width:640px; 
+                            height:480px;
+                            background-repeat:no-repeat;
+                            background-size: 100% 100%;
+                            z-index:2;
+                            text-align:center;
+                            vertical-align:middle;
+                            margin-left:auto;
+                            margin-right:auto;">
+
+                        <tr style="height:13px;">
+                            <td colspan="5">
+                            
+                            </td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="humi1" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                                
+                            </td>
+                            <td
+                                id="humi2" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                                   
+                            </td>
+                            <td
+                                id="humi3" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td style="width:42px;"></td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="humi4" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="humi5" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="humi6" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td style="width:42px;"></td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="humi7" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="humi8" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="humi9" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                color:#FFF;">
+                            
+                            </td>
+                        <td style="width:42px;"></td>
+                        </tr>
+                    <tr style="height:22px;">
+                        <td colspan="5"></td>
+                    </tr>
+                    </table>
                 </td>
-                <td
-                    id="temp2" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    border-bottom:thin dotted #FFF;
-                    border-right:thin dotted #FFF;
-                    color:#FFF;">
-                       
-                </td>
-                <td
-                    id="temp3" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    border-bottom:thin dotted #FFF;
-                    color:#FFF;">
-                
-                </td>
-                <td style="width:42px;"></td>
             </tr>
-            
-            <tr><td style="width:43px;"></td>
-                <td
-                    id="temp4" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    border-bottom:thin dotted #FFF;
-                    border-right:thin dotted #FFF;
-                    color:#FFF;">
-                
+            </table>
+        </div>
+        <div class='col-sm-6'>
+            <table style="border:0;text-align:left">
+            <tr>
+                <td>
+                    <table 
+                        style="
+                            border:0;
+                            border-spacing:0;
+                            width:640px; 
+                            height:480px;
+                            background-repeat:no-repeat;
+                            background-size: 100% 100%;
+                            z-index:2;
+                            text-align:center;
+                            vertical-align:middle;
+                            margin-left:auto;
+                            margin-right:auto;">
+
+                        <tr style="height:13px;">
+                            <td colspan="5">
+                            
+                            </td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="light1" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                                
+                            </td>
+                            <td
+                                id="light2" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                                   
+                            </td>
+                            <td
+                                id="light3" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td style="width:42px;"></td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="light4" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="light5" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="light6" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td style="width:42px;"></td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="light7" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="light8" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="light9" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                color:#FFF;">
+                            
+                            </td>
+                        <td style="width:42px;"></td>
+                        </tr>
+                    <tr style="height:22px;">
+                        <td colspan="5"></td>
+                    </tr>
+                    </table>
                 </td>
-                <td
-                    id="temp5" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    border-bottom:thin dotted #FFF;
-                    border-right:thin dotted #FFF;
-                    color:#FFF;">
-                
-                </td>
-                <td
-                    id="temp6" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    border-bottom:thin dotted #FFF;
-                    color:#FFF;">
-                
-                </td>
-                <td style="width:42px;"></td>
             </tr>
-            
-            <tr><td style="width:43px;"></td>
-                <td
-                    id="temp7" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    border-right:thin dotted #FFF;
-                    color:#FFF;">
-                
+            </table>
+        </div>
+        <div class='col-sm-6'>
+            <table style="border:0;text-align:left">
+            <tr>
+                <td>
+                    <table 
+                        style="
+                            border:0;
+                            border-spacing:0;
+                            width:640px; 
+                            height:480px;
+                            background-repeat:no-repeat;
+                            background-size: 100% 100%;
+                            z-index:2;
+                            text-align:center;
+                            vertical-align:middle;
+                            margin-left:auto;
+                            margin-right:auto;">
+
+                        <tr style="height:13px;">
+                            <td colspan="5">
+                            
+                            </td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="sound1" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                                
+                            </td>
+                            <td
+                                id="sound2" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                                   
+                            </td>
+                            <td
+                                id="sound3" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td style="width:42px;"></td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="sound4" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="sound5" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="sound6" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-bottom:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td style="width:42px;"></td>
+                        </tr>
+                        
+                        <tr><td style="width:43px;"></td>
+                            <td
+                                id="sound7" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="sound8" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                border-right:thin dotted #FFF;
+                                color:#FFF;">
+                            
+                            </td>
+                            <td
+                                id="sound9" style="vertical-align:middle;
+                                filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
+                                background-color:#cccccc;
+                                color:#FFF;">
+                            
+                            </td>
+                        <td style="width:42px;"></td>
+                        </tr>
+                    <tr style="height:22px;">
+                        <td colspan="5"></td>
+                    </tr>
+                    </table>
                 </td>
-                <td
-                    id="temp8" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    border-right:thin dotted #FFF;
-                    color:#FFF;">
-                
-                </td>
-                <td
-                    id="temp9" style="vertical-align:middle;
-                    filter:alpha(opacity=75);-moz-opacity:.75;opacity:.75;
-                    background-color:#cccccc;
-                    color:#FFF;">
-                
-                </td>
-            <td style="width:42px;"></td>
             </tr>
-        <tr style="height:22px;">
-            <td colspan="5"></td>
-        </tr>
-        </table>
-    </td>
-</tr>
-</table>
+            </table>
+        </div>
+
+
+    </div>
+</div>
+
+
+
 
 
 {% endblock content %}
