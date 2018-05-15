@@ -262,14 +262,14 @@ class DataWeekEndpoint(APIView):
 class DataMapping(APIView):
     ''' INI BUAT NGELOMPOKIN 15 MENIT TERAKHIR BUAT HEAT MAP '''
     def get(self, request):
-        datums = Datum.objects.filter(date_n__gte=datetime.now())
-        datumin = datums.objects.filter(time_n__gte=datetime.now()+timedelta(hours=7)-timedelta(minutes=15))
+        datums = Datum.objects.filter(date_n__gte=datetime.now()).filter(time_n__gte=datetime.now()-timedelta(minutes=15))
+        # datumin = datums.objects.filter(time_n__gte=datetime.now()+timedelta(hours=7)-timedelta(minutes=15))
         # Inisialisasi variable yang mau di-return
         return_all_dict = {}
 
         # Kelompokin berdasar sensor_id
         sensor_id_bucket = set()
-        for dt in datumin:
+        for dt in datums:
             sensor_id_bucket.add(str(dt.sensor_id))
         
         # Temperature
@@ -278,7 +278,7 @@ class DataMapping(APIView):
         for hb in sensor_id_bucket:
             list_data_per_id[hb] = []
         # Ngelompokin berdasar Sensor ID
-        for dt in datumin:
+        for dt in datums:
             list_data_per_id[str(dt.sensor_id)].append(dt.temperature)
 
         return_dictionary = {} 
@@ -297,7 +297,7 @@ class DataMapping(APIView):
             list_data_per_id[hb] = []
         # Ngelompokin berdasar Sensor ID
         
-        for dt in datumin:
+        for dt in datums:
             list_data_per_id[str(dt.sensor_id)].append(dt.humidity)
 
         return_dictionary = {} 
@@ -316,7 +316,7 @@ class DataMapping(APIView):
             list_data_per_id[hb] = []
         # Ngelompokin berdasar Sensor ID
         
-        for dt in datumin:
+        for dt in datums:
             list_data_per_id[str(dt.sensor_id)].append(dt.light_intensity)
 
         return_dictionary = {} 
@@ -335,7 +335,7 @@ class DataMapping(APIView):
             list_data_per_id[hb] = []
         # Ngelompokin berdasar Sensor ID
         
-        for dt in datumin:
+        for dt in datums:
             list_data_per_id[str(dt.sensor_id)].append(dt.sound_intensity)
 
         return_dictionary = {} 
