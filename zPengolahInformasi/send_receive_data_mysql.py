@@ -79,6 +79,7 @@ def on_connect(client, userdata, flags, rc):
  
 def on_message(client, userdata, message):
     print "Message Received: "  + message.payload
+    channel.basic_publish(exchange='amq.topic', routing_key='kondisiruang.dataserver', body= message.payload)
     
     # Parsing JSON data
     json_Dict = json.loads(message.payload)

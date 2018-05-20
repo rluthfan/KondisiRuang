@@ -28,41 +28,6 @@ def eksekusi(sql, done, err):
             print err
 #Setup Database end
 
-'''
-# Kalo pake RabbitMQ local
-# Setup AMQP begin
-credentials = pika.PlainCredentials('rifqil', 'rifqil')
-# IP Address-nya diganti jangan lupa
-parameters = pika.ConnectionParameters('192.168.0.116',
-                                       5672,
-                                       '/',
-                                       credentials)
-
-connection = pika.BlockingConnection()
-#pika.ConnectionParameters(host='192.168.0.132'))
-'''
-
-# Setup AMQP begin
-credentials = pika.PlainCredentials('kondisiruang', 'kondisiruang')
-parameters = pika.ConnectionParameters('167.205.7.226',
-                                       5672,
-                                       '/kondisiruang',
-                                       credentials)
-
-connection = pika.BlockingConnection(parameters)
-#pika.ConnectionParameters(host='192.168.0.132'))
-
-channel = connection.channel()
-
-channel.queue_declare(queue='holosensor',
-                        durable=True)
-
-channel.exchange_declare(exchange='amq.topic',
-                        exchange_type='topic',
-                            durable=True
-                            )
-# Setup AMQP end
-
 # Setup MQTT begin
 def on_connect(client, userdata, flags, rc):
  
@@ -186,25 +151,6 @@ def on_message(client, userdata, message):
     # Process Input Data to database Holosensor
     eksekusi (sql, "Input database Berhasil", "GAGAL")
 
-    # Initializing sensor data to be sent
-    msgJson={}
-    msgJson["DATE"] = Daten
-    msgJson["TIME"] = Timen
-    msgJson["SENSOR_ID"] = SensorID
-    msgJson["TEMPERATURE"] = tempdata
-    msgJson["RECOMTEMP"] = recomtempdata
-    msgJson["HUMIDITY"] = humidata
-    msgJson["RECOMHUMID"] = recomhumiddata
-    msgJson["LIGHTINTENSITY"] = lightdata
-    msgJson["RECOMLIGHT"] = recomlightdata
-    msgJson["SOUNDLEVEL"] = sounddata
-    msgJson["RECOMSOUND"] = recomsounddata
-    
-    # properties = pika.BasicProperties(content_type = "application/json", delivery_mode = 1)
-
-    # Sending sensor data with recommendation
-    # channel.basic_publish(exchange='amq.topic', routing_key='holosensor.data', body= json.dumps(msgJson))
- 
 Connected = False   #global variable for the state of the connection
 
 '''
@@ -221,7 +167,7 @@ port = 1883                                #Broker port
 user = "/kondisiruang:kondisiruang"        #Connection username
 password = "kondisiruang"                  #Connection password
  
-client = mqttClient.Client("Raspi")                #create new instance
+client = mqttClient.Client("PC-DBServer")          #create new instance
 client.username_pw_set(user, password=password)    #set username and password
 client.on_connect= on_connect                      #attach function to callback
 client.on_message= on_message                      #attach function to callback
@@ -234,7 +180,7 @@ client.loop_start()        #start the loop
 while Connected != True:    #Wait for connection
     time.sleep(0.1)
  
-client.subscribe("kondisiruang/sensor")
+client.subscribe("kondisiruang/dataserver")
  
 try:
     while True:
@@ -244,5 +190,4 @@ except KeyboardInterrupt:
     print "exiting"
     client.disconnect()
     client.loop_stop()
-    connection.close()
 # Setup MQTT end
