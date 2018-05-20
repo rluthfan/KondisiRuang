@@ -170,6 +170,7 @@ def on_message(client, userdata, message):
             recomsounddata = "Nyaman Optimal"
         elif (sounddata <= 50):
             recomsounddata = "No Recommendation"
+    # Mode Pembelajaran Diskusi
     elif(Mode_Pembelajaran == "Diskusi"):
         if (sounddata > 70):
             recomsounddata = "Di Atas Ambang Batas Kebisingan!"
