@@ -124,19 +124,6 @@ def on_message(client, userdata, message):
 
     # Recommendation Light
     if(Mode_Pembelajaran == "Presentasi"):
-        if (lightdata > 1000):
-            recomlightdata = "Terlalu Terang, Matikan Lampu!, Tutup Jendela!"
-        elif (lightdata > 700) and (lightdata <= 1000):
-            recomlightdata = "Cukup Terang, Matikan Lampu!"
-        elif (lightdata > 500) and (lightdata <= 700):
-            recomlightdata = "Terang Nyaman"
-        elif (lightdata >= 300) and (lightdata <= 500):
-            recomlightdata = "Nyaman Optimal"
-        elif (lightdata > 250) and (lightdata < 300):
-            recomlightdata = "Redup Nyaman, Saran: Nyalakan Lampu"
-        elif (lightdata <= 250):
-            recomlightdata = "Terlalu Redup, Nyalakan Lampu!"
-    else:
         if (lightdata > 250):
             recomlightdata = "Terlalu Terang, Matikan Lampu!, Tutup Jendela!"
         elif (lightdata > 150) and (lightdata <= 250):
@@ -149,6 +136,19 @@ def on_message(client, userdata, message):
             recomlightdata = "Redup Nyaman"
         elif (lightdata <= 10):
             recomlightdata = "Terlalu Redup, Nyalakan Lampu Kecil!"
+    else:
+        if (lightdata > 1000):
+            recomlightdata = "Terlalu Terang, Matikan Lampu!, Tutup Jendela!"
+        elif (lightdata > 700) and (lightdata <= 1000):
+            recomlightdata = "Cukup Terang, Matikan Lampu!"
+        elif (lightdata > 500) and (lightdata <= 700):
+            recomlightdata = "Terang Nyaman"
+        elif (lightdata >= 300) and (lightdata <= 500):
+            recomlightdata = "Nyaman Optimal"
+        elif (lightdata > 250) and (lightdata < 300):
+            recomlightdata = "Redup Nyaman, Saran: Nyalakan Lampu"
+        elif (lightdata <= 250):
+            recomlightdata = "Terlalu Redup, Nyalakan Lampu!"
 
     # Recommendation Sound
     if(Mode_Pembelajaran == "Normal"):
