@@ -7,7 +7,7 @@ from datetime import datetime
 
 # Setup Database begin
 # Open Database Connection
-db = MySQLdb.connect("localhost", "root", "password", "kelas1")
+db = MySQLdb.connect("192.168.0.103", "adminsql", "adminsql", "kelas1")
 
 # prepare a cursor object using cursor() method
 cursor = db.cursor()
@@ -203,7 +203,7 @@ def on_message(client, userdata, message):
     # properties = pika.BasicProperties(content_type = "application/json", delivery_mode = 1)
 
     # Sending sensor data with recommendation
-    channel.basic_publish(exchange='amq.topic', routing_key='holosensor.data', body= json.dumps(msgJson))
+    # channel.basic_publish(exchange='amq.topic', routing_key='holosensor.data', body= json.dumps(msgJson))
  
 Connected = False   #global variable for the state of the connection
 
