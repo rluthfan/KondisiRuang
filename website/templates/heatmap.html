@@ -7,12 +7,18 @@ window.setInterval(function(){
 }, 5000)
 
 function getColorTemp(value){
-    lowValue1 = 15
-    lowValue2 = 22
-    lowValue3 = 27
+    lowValue1 = 12
+    lowValue2 = 20.5
+    lowValue3 = 22.8
+    lowValue4 = 25.8
+    lowValue5 = 28
+    lowValue6 = 31
     hiValue = 40
-    lowColor1 = parseInt("91CEEC",16);
-    lowColor2 = parseInt("B49DB2",16);
+    lowColor1 = parseInt("C1CEFF",16);
+    lowColor2 = parseInt("91CEEC",16);
+    lowColor3 = parseInt("737B96",16);
+    lowColor4 = parseInt("FF7171",16);
+    lowColor5 = parseInt("D85B5B",16);
     hiColor = parseInt("E8545D",16);
     if((value>lowValue1)&&(value<=lowValue2)){
         result = lowColor1
@@ -20,7 +26,16 @@ function getColorTemp(value){
     else if((value>lowValue2)&&(value<=lowValue3)){
         result = lowColor2
     }
-    else if((value>lowValue3)&&(value<=hiValue)){
+    else if((value>lowValue3)&&(value<=lowValue4)){
+        result = lowColor3
+    }
+    else if((value>lowValue4)&&(value<=lowValue5)){
+        result = lowColor4
+    }
+    else if((value>lowValue5)&&(value<=lowValue6)){
+        result = lowColor5
+    }
+    else if((value>lowValue6)&&(value<=hiValue)){
         result = hiColor
     }
     return result.toString(16).toUpperCase();
@@ -28,11 +43,15 @@ function getColorTemp(value){
 
 function getColorHumi(value){
     lowValue1 = 20
-    lowValue2 = 40
+    lowValue2 = 50
     lowValue3 = 60
-    hiValue = 40
-    lowColor1 = parseInt("91CEEC",16);
-    lowColor2 = parseInt("B49DB2",16);
+    lowValue4 = 70
+    lowValue5 = 80
+    hiValue = 100
+    lowColor1 = parseInt("C1CEFF",16);
+    lowColor2 = parseInt("91CEEC",16);
+    lowColor3 = parseInt("737B96",16);
+    lowColor4 = parseInt("D85B5B",16);
     hiColor = parseInt("E8545D",16);
     if((value>lowValue1)&&(value<=lowValue2)){
         result = lowColor1
@@ -40,7 +59,13 @@ function getColorHumi(value){
     else if((value>lowValue2)&&(value<=lowValue3)){
         result = lowColor2
     }
-    else if((value>lowValue3)&&(value<=hiValue)){
+    else if((value>lowValue3)&&(value<=lowValue4)){
+        result = lowColor3
+    }
+    else if((value>lowValue4)&&(value<=lowValue5)){
+        result = lowColor4
+    }
+    else if((value>lowValue5)&&(value<=hiValue)){
         result = hiColor
     }
     return result.toString(16).toUpperCase();
@@ -48,19 +73,34 @@ function getColorHumi(value){
 
 function getColorLight(value){
     lowValue1 = 10
-    lowValue2 = 300
-    lowValue3 = 600
-    hiValue = 3000
-    lowColor1 = parseInt("91CEEC",16);
-    lowColor2 = parseInt("B49DB2",16);
-    hiColor = parseInt("E8545D",16);
+    lowValue2 = 250
+    lowValue3 = 300
+    lowValue4 = 500
+    lowValue5 = 700
+    lowValue6 = 1000
+    hiValue = 40000
+    lowColor1 = parseInt("565656",16);
+    lowColor2 = parseInt("B2B282",16);
+    lowColor3 = parseInt("FFFF89",16);
+    lowColor4 = parseInt("FFFF56",16);
+    lowColor5 = parseInt("FFFFDD",16);
+    hiColor = parseInt("FFFFE5",16);
     if((value>lowValue1)&&(value<=lowValue2)){
         result = lowColor1
     }
     else if((value>lowValue2)&&(value<=lowValue3)){
         result = lowColor2
     }
-    else if((value>lowValue3)&&(value<=hiValue)){
+    else if((value>lowValue3)&&(value<=lowValue4)){
+        result = lowColor3
+    }
+    else if((value>lowValue4)&&(value<=lowValue5)){
+        result = lowColor4
+    }
+    else if((value>lowValue5)&&(value<=lowValue6)){
+        result = lowColor5
+    }
+    else if((value>lowValue6)&&(value<=hiValue)){
         result = hiColor
     }
     return result.toString(16).toUpperCase();
@@ -68,11 +108,13 @@ function getColorLight(value){
 
 function getColorSound(value){
     lowValue1 = 10
-    lowValue2 = 20
-    lowValue3 = 40
-    hiValue = 90
-    lowColor1 = parseInt("91CEEC",16);
-    lowColor2 = parseInt("B49DB2",16);
+    lowValue2 = 40
+    lowValue3 = 50
+    lowValue4 = 60
+    hiValue = 100
+    lowColor1 = parseInt("E0E0E0",16);
+    lowColor2 = parseInt("999999",16);
+    lowColor3 = parseInt("D69898",16);
     hiColor = parseInt("E8545D",16);
     if((value>lowValue1)&&(value<=lowValue2)){
         result = lowColor1
@@ -80,7 +122,10 @@ function getColorSound(value){
     else if((value>lowValue2)&&(value<=lowValue3)){
         result = lowColor2
     }
-    else if((value>lowValue3)&&(value<=hiValue)){
+    else if((value>lowValue3)&&(value<=lowValue4)){
+        result = lowColor3
+    }
+    else if((value>lowValue4)&&(value<=hiValue)){
         result = hiColor
     }
     return result.toString(16).toUpperCase();

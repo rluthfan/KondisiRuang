@@ -82,11 +82,9 @@ def on_message(client, userdata, message):
     
     # Parsing JSON data
     json_Dict = json.loads(message.payload)
-    # Date_and_Time = (datetime.today()).strftime("%d-%b-%Y %H:%M:%S:%f")
     Daten = (datetime.today()).strftime("%Y-%m-%d")
-##    Daten = (datetime.today()).strftime("%Y-%m-01")
     Timen = (datetime.today()).strftime("%H:%M:%S.%f")
-##    Timen = (datetime.today()).strftime("11:%M:%S.%f")
+
     Mode_Pembelajaran = json_Dict['MODE']
     SensorID = json_Dict['SENSOR_ID']
     tempdata = json_Dict['TEMPERATURE']
@@ -94,122 +92,92 @@ def on_message(client, userdata, message):
     lightdata = json_Dict['LIGHT']
     sounddata = json_Dict['SOUND']
 
-    # Habis ini harus coba print dulu yang angka-angka (sensorID ke bawah) di konsol
-
     # Prototype
     # Creating Recommendation
-    
-    # Mode Pembelajaran Diskusi
-    if (Mode_Pembelajaran == "Diskusi"):
-        # Recommendation Temperature
-        if (tempdata > 27.0):
-            recomtempdata = "Suhu terlalu tinggi, buka ventilasi"
-        elif ((tempdata >= 23.0) and (tempdata <= 27.0)):
-            recomtempdata = "No Recommendation"
-        elif (tempdata < 23.0):
-            recomtempdata = "Suhu cukup rendah, tutup ventilasi"
 
-        # Recommendation Humidity
-        if (humidata > 80.0):
-            recomhumiddata = "Tutup Jendela"
-        elif ((humidata >= 30.0) and (humidata <= 80.0)):
-            recomhumiddata = "No Recommendation"
-        elif (humidata < 30.0):
-            recomhumiddata = "Humidity too Low"
+    # Recommendation Temperature
+    if (tempdata >= 31.0):
+        recomtempdata = "Di Atas Ambang Batas, Buka Ventilasi!, Nyalakan aktuator!"
+    elif ((tempdata >= 28.0) and (tempdata < 31.0)):
+        recomtempdata = "Mendekati Ambang Batas, Saran: Buka Ventilasi"
+    elif ((tempdata >= 25.8) and (tempdata < 28.0)):
+        recomtempdata = "Hangat Nyaman"
+    elif ((tempdata >= 22.8) and (tempdata < 25.8)):
+        recomtempdata = "Nyaman Optimal"
+    elif ((tempdata >= 20.5) and (tempdata < 22.8)):
+        recomtempdata = "Sejuk Nyaman, Matikan Aktuator!, Saran: Tutup Ventilasi"
+    elif (tempdata < 20.5):
+        recomtempdata = "Di Bawah Sejuk Nyaman, Tutup Ventilasi!"
 
-        # Recommendation Light
-        if (lightdata > 5000):
-            recomlightdata = "Tutup Jendela"
-        elif (lightdata > 500) and (lightdata <= 5000):
-            recomlightdata = "Matikan Lampu"
+    # Recommendation Humidity
+    if (humidata > 80.0):
+        recomhumiddata = "Di Atas Ambang Batas Kelembapan"
+    elif ((humidata > 70.0) and (humidata <= 80.0)):
+        recomhumiddata = "Lembap Nyaman"
+    elif ((humidata > 60.0) and (humidata <= 70.0)):
+        recomhumiddata = "Nyaman Optimal"
+    elif ((humidata > 50.0) and (humidata <= 60.0)):
+        recomhumiddata = "Kering Nyaman"
+    elif (humidata <= 50.0):
+        recomhumiddata = "Di Bawah Kering Nyaman"
+
+    # Recommendation Light
+    if(Mode_Pembelajaran == "Presentasi"):
+        if (lightdata > 1000):
+            recomlightdata = "Terlalu Terang, Matikan Lampu!, Tutup Jendela!"
+        elif (lightdata > 700) and (lightdata <= 1000):
+            recomlightdata = "Cukup Terang, Matikan Lampu!"
+        elif (lightdata > 500) and (lightdata <= 700):
+            recomlightdata = "Terang Nyaman"
         elif (lightdata >= 300) and (lightdata <= 500):
-            recomlightdata = "No Recommendation"
-        elif (lightdata < 300):
-            recomlightdata = "Nyalakan Lampu"
-
-        # Recommendation Sound
-        if (sounddata > 45):
-            recomsounddata = "Ruangan terlalu berisik"
-        elif ((sounddata >= 20) and (sounddata <= 45)):
-            recomsounddata = "No Recommendation"
-
-    # Mode Pembelajaran Presentasi
-    elif (Mode_Pembelajaran == "Presentasi"):
-        # Recommendation Temperature
-        if (tempdata > 27.0):
-            recomtempdata = "Suhu terlalu tinggi, buka ventilasi"
-        elif ((tempdata >= 23.0) and (tempdata <= 27.0)):
-            recomtempdata = "No Recommendation"
-        elif (tempdata < 23.0):
-            recomtempdata = "Suhu cukup rendah, tutup ventilasi"
-
-        # Recommendation Humidity
-        if (humidata > 80.0):
-            recomhumiddata = "Tutup Jendela"
-        elif ((humidata >= 30.0) and (humidata <= 80.0)):
-            recomhumiddata = "No Recommendation"
-        elif (humidata < 30.0):
-            recomhumiddata = "Humidity too Low"
-
-        # Recommendation Light
-        if (lightdata > 5000):
-            recomlightdata = "Tutup Jendela"
-        elif (lightdata > 500) and (lightdata <= 5000):
-            recomlightdata = "Matikan Lampu"
-        elif (lightdata >= 300) and (lightdata <= 500):
-            recomlightdata = "No Recommendation"
-        elif (lightdata < 300):
-            recomlightdata = "Nyalakan Lampu"
-
-        # Recommendation Sound
-        if (sounddata > 45):
-            recomsounddata = "Ruangan terlalu berisik"
-        elif ((sounddata >= 20) and (sounddata <= 45)):
-            recomsounddata = "No Recommendation"
-    
-    # Mode Pembelajaran Normal
+            recomlightdata = "Nyaman Optimal"
+        elif (lightdata > 250) and (lightdata < 300):
+            recomlightdata = "Redup Nyaman, Saran: Nyalakan Lampu"
+        elif (lightdata <= 250):
+            recomlightdata = "Terlalu Redup, Nyalakan Lampu!"
     else:
-        # Recommendation Temperature
-        if (tempdata > 27.0):
-            recomtempdata = "Suhu terlalu tinggi, buka ventilasi"
-        elif ((tempdata >= 23.0) and (tempdata <= 27.0)):
-            recomtempdata = "No Recommendation"
-        elif (tempdata < 23.0):
-            recomtempdata = "Suhu cukup rendah, tutup ventilasi"
+        if (lightdata > 250):
+            recomlightdata = "Terlalu Terang, Matikan Lampu!, Tutup Jendela!"
+        elif (lightdata > 150) and (lightdata <= 250):
+            recomlightdata = "Mendekati Ambang Batas, Matikan Lampu!"
+        elif (lightdata > 100) and (lightdata <= 150):
+            recomlightdata = "Terang Nyaman"
+        elif (lightdata >= 50) and (lightdata <= 100):
+            recomlightdata = "Nyaman Optimal"
+        elif (lightdata > 10) and (lightdata < 50):
+            recomlightdata = "Redup Nyaman"
+        elif (lightdata <= 10):
+            recomlightdata = "Terlalu Redup, Nyalakan Lampu Kecil!"
 
-        # Recommendation Humidity
-        if (humidata > 80.0):
-            recomhumiddata = "Tutup Jendela"
-        elif ((humidata >= 30.0) and (humidata <= 80.0)):
-            recomhumiddata = "No Recommendation"
-        elif (humidata < 30.0):
-            recomhumiddata = "Humidity too Low"
-
-        # Recommendation Light
-        if (lightdata > 5000):
-            recomlightdata = "Tutup Jendela"
-        elif (lightdata > 500) and (lightdata <= 5000):
-            recomlightdata = "Matikan Lampu"
-        elif (lightdata >= 300) and (lightdata <= 500):
-            recomlightdata = "No Recommendation"
-        elif (lightdata < 300):
-            recomlightdata = "Nyalakan Lampu"
-
-        # Recommendation Sound
-        if (sounddata > 45):
-            recomsounddata = "Ruangan terlalu berisik"
-        elif ((sounddata >= 20) and (sounddata <= 45)):
+    # Recommendation Sound
+    if(Mode_Pembelajaran == "Normal"):
+        if (sounddata > 60):
+            recomsounddata = "Di Atas Ambang Batas Kebisingan!"
+        elif ((sounddata > 50) and (sounddata <= 60)):
+            recomsounddata = "Mulai Bising, Mendekati Ambang Batas"
+        elif ((sounddata > 40) and (sounddata <= 50)):
+            recomsounddata = "Nyaman Optimal"
+        elif (sounddata > 40):
             recomsounddata = "No Recommendation"
-        else:
-            recomsounddata = "Tidak Mungkin Terjadi"
-
-
-    # # Prepare SQL query to INSERT a record into the database.
-    # sql = "INSERT INTO holosensor1(date_n_time, sensor_id, temperature, recommend_temperature, humidity, recommend_humidity, light_intensity, recommend_light, sound_intensity, recommend_sound) \
-    #        VALUES ('%s', '%d', '%lf', '%s', '%lf', '%s', '%d', '%s', '%d', '%s')" % \
-    #        (Date_and_Time, SensorID, tempdata, recomtempdata, humidata, recomhumiddata, lightdata, recomlightdata, sounddata, recomsounddata)
-    # # Process Input Data to database Holosensor
-    # eksekusi (sql, "Input database Berhasil", "GAGAL")
+    # Mode Pembelajaran Presentasi
+    elif(Mode_Pembelajaran == "Presentasi"):
+        if (sounddata > 60):
+            recomsounddata = "Di Atas Ambang Batas Kebisingan!"
+        elif ((sounddata > 55) and (sounddata <= 60)):
+            recomsounddata = "Mulai Bising, Mendekati Ambang Batas"
+        elif ((sounddata > 50) and (sounddata <= 55)):
+            recomsounddata = "Nyaman Optimal"
+        elif (sounddata > 50):
+            recomsounddata = "No Recommendation"
+    elif(Mode_Pembelajaran == "Diskusi"):
+        if (sounddata > 70):
+            recomsounddata = "Di Atas Ambang Batas Kebisingan!"
+        elif ((sounddata > 65) and (sounddata <= 70)):
+            recomsounddata = "Mulai Bising, Mendekati Ambang Batas"
+        elif ((sounddata > 60) and (sounddata <= 65)):
+            recomsounddata = "Nyaman Optimal"
+        elif (sounddata > 60):
+            recomsounddata = "No Recommendation"
 
     # Prepare SQL query to INSERT a record into the database.
     sql = "INSERT INTO sensors_datum(date_n, time_n, mode_belajar, sensor_id, temperature, recommend_temperature, humidity, recommend_humidity, light_intensity, recommend_light, sound_intensity, recommend_sound) \
@@ -220,7 +188,6 @@ def on_message(client, userdata, message):
 
     # Initializing sensor data to be sent
     msgJson={}
-    # msgJson["DATE_AND_TIME"] = Date_and_Time
     msgJson["DATE"] = Daten
     msgJson["TIME"] = Timen
     msgJson["SENSOR_ID"] = SensorID
