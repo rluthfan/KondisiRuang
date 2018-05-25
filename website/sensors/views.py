@@ -262,7 +262,7 @@ class DataWeekEndpoint(APIView):
 class DataMapping(APIView):
     ''' INI BUAT NGELOMPOKIN 15 MENIT TERAKHIR BUAT HEAT MAP '''
     def get(self, request):
-        datums = Datum.objects.filter(date_n__gte=datetime.now()).filter(time_n__gte=datetime.now()-timedelta(minutes=15))
+        datums = Datum.objects.filter(date_n__gte=datetime.now()).filter(time_n__gte=datetime.now()-timedelta(seconds=30))
         # datumin = datums.objects.filter(time_n__gte=datetime.now()+timedelta(hours=7)-timedelta(minutes=15))
         # Inisialisasi variable yang mau di-return
         return_all_dict = {}
